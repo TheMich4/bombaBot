@@ -3,6 +3,7 @@ package com.github.bombaBot;
 import net.rithms.riot.api.ApiConfig;
 import net.rithms.riot.api.RiotApi;
 import net.rithms.riot.api.RiotApiException;
+import net.rithms.riot.api.endpoints.champion.dto.ChampionList;
 import net.rithms.riot.api.endpoints.spectator.dto.CurrentGameParticipant;
 import net.rithms.riot.constant.Platform;
 
@@ -14,22 +15,22 @@ public class LiveGame {
 
     public LiveGame(String inputName) throws RiotApiException {
 
-        ApiConfig config = new ApiConfig().setKey("RGAPI-3097c00c-ff0c-4809-bbb8-86f5205cf36b");
-        RiotApi api = new RiotApi(config);
+        ApiConfig config = new ApiConfig().setKey("RGAPI-f04eda9a-7654-4e33-a004-cfbda55b43d6");
+        RiotApi riotApi = new RiotApi(config);
 
         Platform platform = Platform.EUNE;
-        long summonerID = api.getSummonerByName(platform, inputName).getId();
+        long summonerID = riotApi.getSummonerByName(platform, inputName).getId();
 
 
-        participants = api.getActiveGameBySummoner(platform, summonerID).getParticipants();
+        participants = riotApi.getActiveGameBySummoner(platform, summonerID).getParticipants();
 
         System.out.println(participants);
 
-        for (CurrentGameParticipant player : participants) {
-            System.out.println(player.getChampionId() + ", " + player.getSummonerName());
-        }
+        Rank rank = new Rank(participants, riotApi);
 
-
+//        for (CurrentGameParticipant player : participants) {
+//            System.out.println(player.getChampionId() + ", " + player.getSummonerName());
+//        }
 
     }
 }
