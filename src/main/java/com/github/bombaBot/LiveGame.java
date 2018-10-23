@@ -13,10 +13,10 @@ public class LiveGame {
 
     List<CurrentGameParticipant> participants = null;
 
-    public LiveGame(String inputName) throws RiotApiException {
+    ApiConfig config = new ApiConfig().setKey("RGAPI-0a202937-6b8d-4024-b63b-d420480bfb49");
+    RiotApi riotApi = new RiotApi(config);
 
-        ApiConfig config = new ApiConfig().setKey("RGAPI-f04eda9a-7654-4e33-a004-cfbda55b43d6");
-        RiotApi riotApi = new RiotApi(config);
+    public LiveGame(String inputName) throws RiotApiException {
 
         Platform platform = Platform.EUNE;
         long summonerID = riotApi.getSummonerByName(platform, inputName).getId();
@@ -26,7 +26,7 @@ public class LiveGame {
 
         System.out.println(participants);
 
-        Rank rank = new Rank(participants, riotApi);
+//        Rank rank = new Rank(participants, riotApi);
 
 //        for (CurrentGameParticipant player : participants) {
 //            System.out.println(player.getChampionId() + ", " + player.getSummonerName());

@@ -10,17 +10,19 @@ import org.javacord.api.DiscordApiBuilder;
 
 public class Main {
 
+    public static RiotApi riotApi = null;
+
     public static void main(String[] args) throws RiotApiException {
 
         // DICORD API Settings
         String apiToken = "NTAzNTM1OTE3OTc4NDg0NzM2.Dq36hA.zQb_d30DUiTXf8uLNIR6pGkD-aY";
         DiscordApi api = new DiscordApiBuilder().setToken(apiToken).login().join();
         System.out.println("Logged in!");
-//        System.out.println(api.createBotInvite());
+        System.out.println(api.createBotInvite());
 
         // RIOT API Settings
-        ApiConfig config = new ApiConfig().setKey("RGAPI-f04eda9a-7654-4e33-a004-cfbda55b43d6");
-        RiotApi riotApi = new RiotApi(config);
+        ApiConfig config = new ApiConfig().setKey("RGAPI-0a202937-6b8d-4024-b63b-d420480bfb49");
+        riotApi = new RiotApi(config);
 
         Platform platform = Platform.EUNE;
 //        long summonerID = riotApi.getSummonerByName(platform, "DYCZKOBOMBA").getId();
