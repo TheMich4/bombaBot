@@ -11,25 +11,48 @@ import java.awt.*;
 
 public class Listener implements MessageCreateListener {
 
-    @Override
-    public void onMessageCreate(MessageCreateEvent event) {
-        Message message = event.getMessage();
+    Message message = null;
+    MessageCreateEvent event = null;
+    String messageString = "";
 
-        String messageString = message.getContent();
+    @Override
+    public void onMessageCreate(MessageCreateEvent createEvent) {
+
+        event = createEvent;
+        message = event.getMessage();
+
+        messageString = message.getContent();
 
 //        System.out.println(messageString.substring(0,5));
 //        System.out.println(messageString.substring(6));
 
-        if (messageString.substring(0, 5).equals("!game")) {
-            displayGameBySummoner(event, messageString);
+        if (message.getAuthor().getDisplayName().equals("Witles")) {
+            witlesMessage();
         }
-        else if (messageString.substring(0,5).equals("!rank")) {
-            displayRankBySummoner(event, messageString);
+
+        if (messageString.substring(0, 5).equals("!help")) {
+            displayHelpMessage();
+        } else if (messageString.substring(0, 5).equals("!game")) {
+            displayGameBySummoner();
+        } else if (messageString.substring(0, 5).equals("!rank")) {
+            displayRankBySummoner();
         }
     }
 
-    private void displayGameBySummoner(MessageCreateEvent event, String messageString) {
-        System.out.println("WENT INTO LOOP !game - " + messageString.substring(6));
+    private void displayHelpMessage() {
+
+        String commands = ("**!help** - Displays all commands \n"
+                + "**!game** - Displays current game of a given summoner \n"
+                + "**!rank** - Displays rank of a fiven summoner");
+
+        new MessageBuilder()
+                .setEmbed(new EmbedBuilder()
+                        .setTitle("Available commands")
+                        .setDescription(commands))
+                .send(event.getChannel());
+    }
+
+    private void displayGameBySummoner() {
 
         LiveGame liveGame = null;
 
@@ -68,8 +91,7 @@ public class Listener implements MessageCreateListener {
                 ).send(event.getChannel());
     }
 
-    private void displayRankBySummoner(MessageCreateEvent event, String messageString) {
-        System.out.println("WENT INTO LOOP !ramk - " + messageString.substring(6));
+    private void displayRankBySummoner() {
 
         String summName = messageString.substring(6);
 
@@ -78,12 +100,19 @@ public class Listener implements MessageCreateListener {
         try {
             new MessageBuilder()
                     .setEmbed(new EmbedBuilder()
-                                .setTitle("Rank of " + summName)
-                                .setColor(Color.pink)
-                                .setDescription(rank.getRankBySummonerName(summName)))
+                            .setTitle("Rank of " + summName)
+                            .setColor(Color.pink)
+                            .setDescription(rank.getRankBySummonerName(summName)))
                     .send(event.getChannel());
         } catch (RiotApiException e) {
             e.printStackTrace();
         }
+    }
+
+    private void witlesMessage() {
+        new MessageBuilder()
+                    .setTts(true)
+                    .setContent("Czas najwyzszy zebys zamknal morde")
+                    .send(event.getChannel());
     }
 }

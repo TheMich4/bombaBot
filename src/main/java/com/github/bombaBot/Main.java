@@ -30,6 +30,7 @@ public class Main {
 //        System.out.println(summonerID);
 
         api.addListener(new Listener());
+        api.addListener(new NicknameChangeListener());
 
 //        LiveGame liveGame = new LiveGame("Inspectrium");
 
